@@ -52,14 +52,12 @@
 
   function splitDetails(value) {
     if (Array.isArray(value)) return value.map(String).filter(Boolean);
-    return String(value || '')
-      .split('\n')
-      .map(item => item.replace(/^[-•\s]+/, '').trim())
-      .filter(Boolean);
+    return String(value || '').split('\n').map(item => item.replace(/^[-•\s]+/, '').trim()).filter(Boolean);
   }
 
   function fallbackLogs() {
     return [{
+      _fallback: true,
       version_title: versionTitle(BASE_VERSION),
       summary: 'Changelog awal RP Assistence. Update berikutnya akan tampil otomatis setelah admin menambahkan log baru.',
       details: ['Halaman Update & Changelog telah ditambahkan.', 'Sistem admin changelog disiapkan untuk update berikutnya.'],
@@ -161,11 +159,8 @@
     try {
       const logs = await fetchLogs(1);
       const first = logs[0];
-      const latest = first && first.version_title ? first.version_title : versionTitle('v2.4.2.0');
-      const next = latest === versionTitle(BASE_VERSION) && first && first.created_by === 'SAPIGENDUT'
-        ? BASE_VERSION
-        : nextVersionFrom(latest);
-      return versionTitle(next);
+      if (!first || first._fallback) return versionTitle(BASE_VERSION);
+      return versionTitle(nextVersionFrom(first.version_title || BASE_VERSION));
     } catch (error) {
       console.error(error);
       return versionTitle(BASE_VERSION);
@@ -188,7 +183,7 @@
     const hash = await sha256(value);
 
     if (hash !== ADMIN_LOGIN_HASH) {
-      setAdminMessage('Username atau password salah.', 'error');
+      setAdminMessage('Username atau kode akses salah.', 'error');
       return;
     }
 
