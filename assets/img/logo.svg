@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="RP Assistence logo">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="432" y2="472" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#818cf8"/>
+      <stop offset="0.52" stop-color="#67e8f9"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="card" x1="120" y1="100" x2="392" y2="412" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#05070e"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#05070e"/>
+  <rect x="54" y="54" width="404" height="404" rx="96" fill="url(#bg)" opacity="0.95"/>
+  <path d="M148 146h216a34 34 0 0 1 34 34v48c-26 0-47 21-47 47s21 47 47 47v10a34 34 0 0 1-34 34H148a34 34 0 0 1-34-34v-10c26 0 47-21 47-47s-21-47-47-47v-48a34 34 0 0 1 34-34Z" fill="url(#card)"/>
+  <path d="M222 166v200" stroke="#ffffff" stroke-opacity="0.16" stroke-width="10" stroke-linecap="round" stroke-dasharray="18 24"/>
+  <text x="256" y="292" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="118" font-weight="900" letter-spacing="-8" fill="#ffffff">RP</text>
+  <circle cx="154" cy="180" r="12" fill="#ffffff" opacity="0.28"/>
+  <circle cx="358" cy="332" r="12" fill="#ffffff" opacity="0.28"/>
+</svg>
