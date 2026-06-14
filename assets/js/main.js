@@ -1,31 +1,29 @@
-// TicketForge static multi-page interactions
+// RP Assistence static multi-page interactions
 (function () {
   const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Scroll/reveal animation
-  const reveal = () => {
+  function revealAll() {
     document.querySelectorAll('.ao').forEach((el, i) => {
       el.style.transitionDelay = ((i % 8) * 45) + 'ms';
       el.classList.add('vis');
     });
-  };
+  }
 
   if ('IntersectionObserver' in window && !prefersReducedMotion) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('vis');
       });
-    }, { threshold: .08 });
+    }, { threshold: 0.08 });
 
     document.querySelectorAll('.ao').forEach((el, i) => {
       el.style.transitionDelay = ((i % 8) * 45) + 'ms';
       io.observe(el);
     });
   } else {
-    reveal();
+    revealAll();
   }
 
-  // Mobile menu
   window.toggleMenu = function toggleMenu() {
     const menu = document.getElementById('mobileMenu');
     const btn = document.querySelector('.nmobile-btn');
@@ -45,7 +43,6 @@
     if (!event.target.closest('nav') && !event.target.closest('.mobile-menu')) window.closeMenu();
   });
 
-  // Command filter tabs + search
   let activeCommandTier = 'all';
   let activeCommandSearch = '';
 
@@ -76,8 +73,7 @@
       if (show) visible++;
     });
 
-    const empty = ensureEmptyState();
-    empty.classList.toggle('show', visible === 0);
+    ensureEmptyState().classList.toggle('show', visible === 0);
   }
 
   window.filterCmds = function filterCmds(tier, btn) {
@@ -98,15 +94,13 @@
   applyCommandFilters();
 })();
 
-
-
-// TicketForge testimonials interactions — Supabase only, no dummy data
+// RP Assistence testimonials interactions — Supabase only, no dummy data
 (function () {
   const form = document.getElementById('testimonialForm');
   const list = document.getElementById('testimonialList');
   if (!form || !list) return;
 
-  const config = window.TICKETFORGE_SUPABASE || {};
+  const config = window.RP_ASSISTENCE_SUPABASE || {};
   const tableName = config.table || 'testimonials';
   const comment = document.getElementById('customerComment');
   const counter = document.getElementById('commentCounter');
@@ -114,22 +108,10 @@
   let activeReviewFilter = 'all';
   let reviewsCache = [];
 
-  // Bersihkan data demo/localStorage dari versi lama.
-  // Data yang ditampilkan hanya berasal dari Supabase.
-  try {
-    localStorage.removeItem('ticketforge_testimonials_v1');
-  } catch (error) {}
-
   function setMessage(text, type) {
     if (!message) return;
     message.textContent = text || '';
     message.classList.toggle('error', type === 'error');
-  }
-
-  function safeText(value) {
-    return String(value || '').replace(/[&<>'"]/g, char => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-    }[char]));
   }
 
   function starText(rating) {
@@ -176,12 +158,40 @@
     if (countEl) countEl.textContent = total;
 
     if (barsEl) {
-      barsEl.innerHTML = [5, 4, 3, 2, 1].map(star => {
+      barsEl.replaceChildren();
+      [5, 4, 3, 2, 1].forEach(star => {
         const count = reviews.filter(item => Number(item.rating) === star).length;
         const percent = total ? Math.round((count / total) * 100) : 0;
-        return `<div class="rating-bar-row"><span>${star}★</span><div class="rating-bar-track"><span class="rating-bar-fill" style="width:${percent}%"></span></div><span>${count}</span></div>`;
-      }).join('');
+        const row = document.createElement('div');
+        const label = document.createElement('span');
+        const track = document.createElement('div');
+        const fill = document.createElement('span');
+        const value = document.createElement('span');
+
+        row.className = 'rating-bar-row';
+        track.className = 'rating-bar-track';
+        fill.className = 'rating-bar-fill';
+        fill.style.width = percent + '%';
+        label.textContent = star + '★';
+        value.textContent = count;
+
+        track.appendChild(fill);
+        row.append(label, track, value);
+        barsEl.appendChild(row);
+      });
     }
+  }
+
+  function setEmptyState(title, subtitle) {
+    const empty = document.createElement('div');
+    const strong = document.createElement('strong');
+    const span = document.createElement('span');
+
+    empty.className = 'testimonial-empty';
+    strong.textContent = title;
+    span.textContent = subtitle;
+    empty.append(strong, span);
+    list.replaceChildren(empty);
   }
 
   function renderReviews() {
@@ -191,29 +201,51 @@
       : reviewsCache.filter(item => String(item.rating) === activeReviewFilter);
 
     if (!reviewsCache.length) {
-      list.innerHTML = '<div class="testimonial-empty"><strong>Belum ada testimoni.</strong><span>Testimoni akan tampil di sini setelah customer mengirim ulasan asli.</span></div>';
+      setEmptyState('Belum ada testimoni.', 'Testimoni akan tampil di sini setelah customer mengirim ulasan asli.');
       return;
     }
 
     if (!filtered.length) {
-      list.innerHTML = '<div class="testimonial-empty"><strong>Belum ada testimoni untuk filter ini.</strong><span>Coba pilih filter lain.</span></div>';
+      setEmptyState('Belum ada testimoni untuk filter ini.', 'Coba pilih filter lain.');
       return;
     }
 
-    list.innerHTML = filtered.map(item => `
-      <article class="testimonial-card">
-        <div class="testimonial-card-head">
-          <div class="customer-avatar">${safeText(initials(item.name))}</div>
-          <div class="customer-meta">
-            <div class="customer-name">${safeText(item.name)}</div>
-            <div class="customer-date">${safeText(formatDate(item.date))}</div>
-          </div>
-          <div class="customer-stars" aria-label="${Number(item.rating)} dari 5 bintang">${starText(item.rating)}</div>
-        </div>
-        <p class="testimonial-comment">${safeText(item.comment)}</p>
-        <div class="testimonial-quote">”</div>
-      </article>
-    `).join('');
+    const cards = filtered.map(item => {
+      const card = document.createElement('article');
+      const head = document.createElement('div');
+      const avatar = document.createElement('div');
+      const meta = document.createElement('div');
+      const name = document.createElement('div');
+      const date = document.createElement('div');
+      const stars = document.createElement('div');
+      const text = document.createElement('p');
+      const quote = document.createElement('div');
+
+      card.className = 'testimonial-card';
+      head.className = 'testimonial-card-head';
+      avatar.className = 'customer-avatar';
+      meta.className = 'customer-meta';
+      name.className = 'customer-name';
+      date.className = 'customer-date';
+      stars.className = 'customer-stars';
+      text.className = 'testimonial-comment';
+      quote.className = 'testimonial-quote';
+
+      avatar.textContent = initials(item.name);
+      name.textContent = item.name;
+      date.textContent = formatDate(item.date);
+      stars.textContent = starText(item.rating);
+      stars.setAttribute('aria-label', Number(item.rating) + ' dari 5 bintang');
+      text.textContent = item.comment;
+      quote.textContent = '”';
+
+      meta.append(name, date);
+      head.append(avatar, meta, stars);
+      card.append(head, text, quote);
+      return card;
+    });
+
+    list.replaceChildren(...cards);
   }
 
   function getSupabaseClient() {
@@ -227,17 +259,15 @@
   }
 
   async function loadReviews() {
-    list.innerHTML = '<div class="testimonial-empty"><strong>Memuat testimoni...</strong><span>Mengambil data asli dari Supabase.</span></div>';
+    setEmptyState('Memuat testimoni...', 'Mengambil data asli dari Supabase.');
 
     try {
       const client = getSupabaseClient();
-      let query = client
+      const query = client
         .from(tableName)
         .select('id, customer_name, rating, comment, created_at, is_approved')
         .order('created_at', { ascending: false });
 
-      // Tampilkan hanya testimoni yang sudah approved kalau kolomnya tersedia.
-      // Jika policy/table kamu tidak memakai approval, query fallback tetap jalan di bawah.
       const { data, error } = await query.eq('is_approved', true);
 
       if (error && /is_approved|column|schema/i.test(error.message || '')) {
@@ -259,7 +289,7 @@
       console.error(error);
       reviewsCache = [];
       renderSummary(reviewsCache);
-      list.innerHTML = '<div class="testimonial-empty"><strong>Testimoni belum bisa dimuat.</strong><span>Periksa konfigurasi Supabase, RLS policy, dan koneksi hosting.</span></div>';
+      setEmptyState('Testimoni belum bisa dimuat.', 'Periksa konfigurasi Supabase, RLS policy, dan koneksi hosting.');
       setMessage('Gagal memuat testimoni dari Supabase.', 'error');
     }
   }
