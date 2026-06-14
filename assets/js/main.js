@@ -1,41 +1,64 @@
 // RP Assistence static multi-page interactions
 (function () {
   const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isChangelog = /changelog\.html$/i.test(window.location.pathname);
+  const currentPath = window.location.pathname;
+  const isDashboard = /dashboard\.html$/i.test(currentPath);
+  const isChangelog = /changelog\.html$/i.test(currentPath);
 
-  function createChangelogAnchor() {
+  function createNavAnchor(href, text, active) {
     const a = document.createElement('a');
-    a.href = 'changelog.html';
-    a.textContent = 'Update & Changelog';
-    if (isChangelog) {
+    a.href = href;
+    a.textContent = text;
+    if (active) {
       a.classList.add('active');
       a.setAttribute('aria-current', 'page');
     }
     return a;
   }
 
-  function injectChangelogLinks() {
+  function insertBeforeFirst(container, node, patterns) {
+    const links = Array.from(container.querySelectorAll('a'));
+    const before = links.find(item => patterns.some(pattern => pattern.test(item.getAttribute('href') || '')));
+    container.insertBefore(node, before ? before.closest('li') || before : null);
+  }
+
+  function injectSiteLinks() {
     document.querySelectorAll('.nlinks').forEach(nav => {
-      if (nav.querySelector('a[href="changelog.html"]')) return;
-      const li = document.createElement('li');
-      li.appendChild(createChangelogAnchor());
-      const before = Array.from(nav.querySelectorAll('a')).find(a => /developers\.html|contact\.html/i.test(a.getAttribute('href') || ''));
-      nav.insertBefore(li, before ? before.closest('li') : null);
+      if (!nav.querySelector('a[href="dashboard.html"]')) {
+        const li = document.createElement('li');
+        li.appendChild(createNavAnchor('dashboard.html', 'Dashboard', isDashboard));
+        insertBeforeFirst(nav, li, [/changelog\.html/i, /developers\.html/i, /contact\.html/i]);
+      }
+
+      if (!nav.querySelector('a[href="changelog.html"]')) {
+        const li = document.createElement('li');
+        li.appendChild(createNavAnchor('changelog.html', 'Update & Changelog', isChangelog));
+        insertBeforeFirst(nav, li, [/developers\.html/i, /contact\.html/i]);
+      }
     });
 
     document.querySelectorAll('.mobile-menu').forEach(menu => {
-      if (menu.querySelector('a[href="changelog.html"]')) return;
-      const a = createChangelogAnchor();
-      a.setAttribute('onclick', 'closeMenu()');
-      const before = Array.from(menu.querySelectorAll('a')).find(item => /developers\.html|contact\.html/i.test(item.getAttribute('href') || ''));
-      menu.insertBefore(a, before || null);
+      if (!menu.querySelector('a[href="dashboard.html"]')) {
+        const a = createNavAnchor('dashboard.html', 'Dashboard', isDashboard);
+        a.setAttribute('onclick', 'closeMenu()');
+        insertBeforeFirst(menu, a, [/changelog\.html/i, /developers\.html/i, /contact\.html/i]);
+      }
+
+      if (!menu.querySelector('a[href="changelog.html"]')) {
+        const a = createNavAnchor('changelog.html', 'Update & Changelog', isChangelog);
+        a.setAttribute('onclick', 'closeMenu()');
+        insertBeforeFirst(menu, a, [/developers\.html/i, /contact\.html/i]);
+      }
     });
 
     document.querySelectorAll('.flinks').forEach(footer => {
-      if (footer.querySelector('a[href="changelog.html"]')) return;
-      const a = createChangelogAnchor();
-      const before = Array.from(footer.querySelectorAll('a')).find(item => /developers\.html|contact\.html/i.test(item.getAttribute('href') || ''));
-      footer.insertBefore(a, before || null);
+      if (!footer.querySelector('a[href="dashboard.html"]')) {
+        insertBeforeFirst(footer, createNavAnchor('dashboard.html', 'Dashboard', isDashboard), [/changelog\.html/i, /developers\.html/i, /contact\.html/i]);
+      }
+
+      if (!footer.querySelector('a[href="changelog.html"]')) {
+        insertBeforeFirst(footer, createNavAnchor('changelog.html', 'Update & Changelog', isChangelog), [/developers\.html/i, /contact\.html/i]);
+      }
     });
   }
 
@@ -46,7 +69,7 @@
     });
   }
 
-  injectChangelogLinks();
+  injectSiteLinks();
 
   if ('IntersectionObserver' in window && !prefersReducedMotion) {
     const io = new IntersectionObserver(entries => {
