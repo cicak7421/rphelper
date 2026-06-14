@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Developer — TicketForge</title>
+<meta name="description" content="Tim developer TicketForge."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+<div class="ob ob1"></div><div class="ob ob2"></div><div class="ob ob3"></div>
+
+<nav>
+  <a href="index.html" class="nbrand"><span class="nmark">🎫</span>TicketForge</a>
+  <ul class="nlinks" aria-label="Navigasi utama">
+    <li><a href="index.html">Beranda</a></li><li><a href="features.html">Fitur</a></li><li><a href="commands.html">Commands</a></li><li><a href="pricing.html">Harga</a></li><li><a href="testimonials.html">Testimoni</a></li><li><a href="developers.html" aria-current="page" class="active">Developer</a></li><li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <div class="nright">
+    <a href="https://discord.com/oauth2/authorize" class="ninvite" target="_blank" rel="noopener">🚀 Invite Bot</a>
+    <button class="nmobile-btn" onclick="toggleMenu()" aria-label="Buka menu" aria-controls="mobileMenu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMenu()">Beranda</a><a href="features.html" onclick="closeMenu()">Fitur</a><a href="commands.html" onclick="closeMenu()">Commands</a><a href="pricing.html" onclick="closeMenu()">Harga</a><a href="testimonials.html" onclick="closeMenu()">Testimoni</a><a href="developers.html" onclick="closeMenu()" aria-current="page" class="active">Developer</a><a href="contact.html" onclick="closeMenu()">Kontak</a>
+</div>
+
+<main class="w">
+<section aria-label="Developers" class="page" id="developers"><div class="breadcrumb ao"><a href="index.html">Beranda</a><span>›</span><span>Developer</span></div>
+<div class="shead ao">
+<p class="ey">Tim Developer</p>
+<h2>Dibuat oleh Komunitas, untuk Komunitas</h2>
+<p class="ssub">Dibangun dan dirawat oleh developer yang aktif di ekosistem Discord Indonesia.</p>
+</div>
+<div class="dgrid">
+<div class="dc da ao">
+<div class="dava da-a">👨‍💻</div>
+<div class="dname">Aditya R.</div>
+<div class="drole">Lead Developer</div>
+<p class="dbio">Arsitek utama TicketForge. Bertanggung jawab atas core system, database Supabase, dan integrasi Discord.js v14.</p>
+<div class="dsocs"><a class="dsoc" href="#">Discord</a><a class="dsoc" href="#">GitHub</a></div>
+</div>
+<div class="dc db ao">
+<div class="dava da-b">🎨</div>
+<div class="dname">Naufal S.</div>
+<div class="drole">Bot &amp; Feature Dev</div>
+<p class="dbio">Pengembang fitur AI (SSRP, AI Chat), modul Enterprise (Payroll, Tax, Bank), dan peningkatan UX interaksi Discord.</p>
+<div class="dsocs"><a class="dsoc" href="#">Discord</a><a class="dsoc" href="#">GitHub</a></div>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+  <span class="fb">🎫 TicketForge</span>
+  <span class="fcopy">© 2026 TicketForge · Dibuat di Indonesia 🇮🇩</span>
+  <div class="flinks">
+    <a href="index.html">Beranda</a><a href="features.html">Fitur</a><a href="commands.html">Commands</a><a href="pricing.html">Harga</a><a href="testimonials.html">Testimoni</a><a href="developers.html" aria-current="page">Developer</a><a href="contact.html">Kontak</a>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

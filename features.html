@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Fitur — TicketForge</title>
+<meta name="description" content="Daftar fitur TicketForge untuk server Discord Indonesia."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+<div class="ob ob1"></div><div class="ob ob2"></div><div class="ob ob3"></div>
+
+<nav>
+  <a href="index.html" class="nbrand"><span class="nmark">🎫</span>TicketForge</a>
+  <ul class="nlinks" aria-label="Navigasi utama">
+    <li><a href="index.html">Beranda</a></li><li><a href="features.html" aria-current="page" class="active">Fitur</a></li><li><a href="commands.html">Commands</a></li><li><a href="pricing.html">Harga</a></li><li><a href="testimonials.html">Testimoni</a></li><li><a href="developers.html">Developer</a></li><li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <div class="nright">
+    <a href="https://discord.com/oauth2/authorize" class="ninvite" target="_blank" rel="noopener">🚀 Invite Bot</a>
+    <button class="nmobile-btn" onclick="toggleMenu()" aria-label="Buka menu" aria-controls="mobileMenu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMenu()">Beranda</a><a href="features.html" onclick="closeMenu()" aria-current="page" class="active">Fitur</a><a href="commands.html" onclick="closeMenu()">Commands</a><a href="pricing.html" onclick="closeMenu()">Harga</a><a href="testimonials.html" onclick="closeMenu()">Testimoni</a><a href="developers.html" onclick="closeMenu()">Developer</a><a href="contact.html" onclick="closeMenu()">Kontak</a>
+</div>
+
+<main class="w">
+<section aria-label="Features" class="page" id="features"><div class="breadcrumb ao"><a href="index.html">Beranda</a><span>›</span><span>Fitur</span></div>
+<div class="shead ao">
+<p class="ey">Sistem &amp; Fitur</p>
+<h2>Dibangun untuk Server Serius</h2>
+<p class="ssub">Setiap fitur dirancang agar mudah di-setup dan langsung bisa dipakai.</p>
+</div>
+<div class="fgrid">
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-i">🎫</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Ticket System</div>
+<p class="fd">Buat dan kelola ticket support interaktif. Dukung multi-konfigurasi per server — custom label, emoji, kategori channel, role ping, log channel, pesan sambutan, dan batas ticket terbuka per user. Kirim panel kapanpun via <code>/ticket panel</code>.</p>
+<div class="ftags"><span class="ftag">/ticket panel</span><span class="ftag">/ticket add</span><span class="ftag">/ticket list</span><span class="ftag">3 panel Starter</span><span class="ftag">∞ Enterprise</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-i">🧙</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Ticket Wizard (Guided Setup)</div>
+<p class="fd">Setup, edit, dan hapus konfigurasi ticket via flow interaktif berbasis Discord buttons &amp; select menu — tanpa mengetik parameter panjang. Support update config yang sudah ada sekaligus.</p>
+<div class="ftags"><span class="ftag">/ticketwizard</span><span class="ftag">setup guided</span><span class="ftag">edit config</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-c">✅</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Ticket Status &amp; Statusconfig</div>
+<p class="fd">Tandai status ticket secara real-time: <b>accept, received, denied, pending</b>. Setiap status bisa dikonfigurasi pesan embed, channel notifikasi, dan routing-nya sendiri via <code>/statusconfig</code>.</p>
+<div class="ftags"><span class="ftag">/accept</span><span class="ftag">/received</span><span class="ftag">/denied</span><span class="ftag">/pending</span><span class="ftag">/statusconfig</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-v">👤</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Staff Config &amp; Ticket Actions</div>
+<p class="fd">Kelola profil dan rekening staff via <code>/staffconfig</code>. Ticket bisa di-claim, ditutup, atau dibuka kembali langsung dari channel — bot merespons dengan embed otomatis.</p>
+<div class="ftags"><span class="ftag">/staffconfig</span><span class="ftag">claim ticket</span><span class="ftag">reopen ticket</span><span class="ftag">close ticket</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-v">👥</div><span class="tb tb-f">Free</span></div>
+<div class="fn">HR System</div>
+<p class="fd">Manajemen SDM lengkap: <b>hire, fire, promote, demote</b> dengan notifikasi otomatis ke noticeboard channel. Setup template pesan HR yang fully customizable per guild. Lihat employee list aktif kapanpun.</p>
+<div class="ftags"><span class="ftag">/hrwizard</span><span class="ftag">/hraction hire</span><span class="ftag">/hraction fire</span><span class="ftag">/hraction promote</span><span class="ftag">/hraction demote</span><span class="ftag">/hremployeelist</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-g">👋</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Welcome &amp; Goodbye</div>
+<p class="fd">Kirim pesan sambutan dan perpisahan otomatis saat member masuk/keluar. Fully customizable: channel, judul, isi pesan, background image, dan pengaturan lanjutan via guided wizard.</p>
+<div class="ftags"><span class="ftag">/welcomewizard</span><span class="ftag">custom channel</span><span class="ftag">custom BG</span><span class="ftag">welcome &amp; goodbye</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-i">🤖</div><span class="tb tb-f">Free</span></div>
+<div class="fn">AI Chat Channel</div>
+<p class="fd">Jadikan satu channel sebagai ruang obrolan AI. Member langsung bisa chat tanpa prefix apapun. Admin bisa set, hapus, atau cek channel aktif kapanpun lewat subcommand.</p>
+<div class="ftags"><span class="ftag">/aichat set</span><span class="ftag">/aichat remove</span><span class="ftag">/aichat info</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-p">🎨</div><span class="tb tb-f">Free</span></div>
+<div class="fn">SSRP Image Generator (AI)</div>
+<p class="fd">Buat gambar SSRP dengan dialog yang digenerate AI dari foto karakter. Support hingga <b>5 gambar sekaligus</b> dalam satu command. Bisa load template karakter tersimpan. Quota harian bisa di-override per role via <code>/set_buatssrp_role</code>.</p>
+<div class="ftags"><span class="ftag">/buatssrp</span><span class="ftag">3x Starter</span><span class="ftag">6x Pro</span><span class="ftag">∞ Enterprise</span><span class="ftag">/set_buatssrp_channel</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-a">🔢</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Ad Count &amp; Verifikasi Iklan</div>
+<p class="fd">Hitung dan verifikasi gambar iklan yang masuk ke channel. Deteksi duplikat otomatis berbasis hash gambar. Sesi aktif bisa berjalan bersamaan: <b>1 sesi (Starter), 3 sesi (Pro), unlimited (Enterprise)</b>. Role akses bisa diatur via <code>/adconfig</code>.</p>
+<div class="ftags"><span class="ftag">/startcount</span><span class="ftag">/endcount</span><span class="ftag">/adconfig addrole</span><span class="ftag">duplicate detection</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-a">📊</div><span class="tb tb-p">Professional</span></div>
+<div class="fn">Ads Wizard &amp; Rekap Iklan Otomatis</div>
+<p class="fd">Setup rekap iklan mingguan otomatis — laporan total ads per member dikirim ke channel yang ditentukan. Role akses bisa dibatasi. <code>/adsrekap</code> untuk generate laporan manual kapanpun. Jadwal rekap diatur bersama di Payroll Wizard.</p>
+<div class="ftags"><span class="ftag">/adswizard</span><span class="ftag">/adsrekap</span><span class="ftag">weekly auto-report</span><span class="ftag">per-member stats</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-v">💸</div><span class="tb tb-e">Enterprise</span></div>
+<div class="fn">Payroll Otomatis</div>
+<p class="fd">Hitung dan distribusikan gaji staff secara otomatis berbasis data iklan. Satu wizard mengatur jadwal payroll, ads recap, dan tax report sekaligus. Admin bisa jalankan payroll manual, lihat riwayat, dan cek status kapanpun.</p>
+<div class="ftags"><span class="ftag">/payrollwizard</span><span class="ftag">auto-schedule</span><span class="ftag">manual run</span><span class="ftag">riwayat payroll</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-a">🧾</div><span class="tb tb-e">Enterprise</span></div>
+<div class="fn">Tax Wizard &amp; Sistem Pajak</div>
+<p class="fd">Pajak dihitung otomatis saat <code>/accept</code> berdasarkan nominal harga. Dukung routing notifikasi per divisi ticket. Finance bisa cek hutang, bayar, koreksi, dan lihat history lengkap. Setup denda dan jatuh tempo via modal interaktif.</p>
+<div class="ftags"><span class="ftag">/taxwizard</span><span class="ftag">/tax check</span><span class="ftag">/tax pay</span><span class="ftag">/tax history</span><span class="ftag">per-divisi routing</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-c">🏦</div><span class="tb tb-e">Enterprise</span></div>
+<div class="fn">Bank Virtual</div>
+<p class="fd">Bank virtual server lengkap: cek saldo, withdraw dengan flow approval Finance, transfer antar user, dan riwayat transaksi. Payroll deposit otomatis ke saldo staff. Saldo company terisi otomatis dari tax. Finance bisa lihat semua saldo dan approve/reject request.</p>
+<div class="ftags"><span class="ftag">/bankwizard</span><span class="ftag">/bank balance</span><span class="ftag">/bank withdraw</span><span class="ftag">/bank transfer</span><span class="ftag">/bank history</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-p">🎁</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Giveaway</div>
+<p class="fd">Buat, akhiri, dan reroll giveaway otomatis dengan batas waktu yang bisa ditentukan. Peserta bisa difilter berdasarkan role tertentu. Limit harian: <b>2 (Starter) · 5 (Pro) · 10 (Enterprise)</b>.</p>
+<div class="ftags"><span class="ftag">/giveaway start</span><span class="ftag">/giveaway end</span><span class="ftag">/giveaway reroll</span><span class="ftag">role filter</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-i">📢</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Embed &amp; Announce</div>
+<p class="fd">Kirim pesan embed indah ke channel manapun — judul, deskripsi, warna custom (Pro+). <code>/announce</code> untuk pengumuman teks. Limit embed: <b>5 total (Starter) · 10/hari (Pro) · unlimited (Enterprise)</b>.</p>
+<div class="ftags"><span class="ftag">/embed</span><span class="ftag">/announce</span><span class="ftag">custom color (Pro+)</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-g">📈</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Server Stats</div>
+<p class="fd">Channel voice yang namanya auto-update secara real-time: total member, non-bot, bot, online, boost count, channel count, roles. Template nama bisa dikustomisasi per stat channel. Bisa pakai channel yang sudah ada atau buat baru otomatis.</p>
+<div class="ftags"><span class="ftag">/serverstats setup</span><span class="ftag">/serverstats remove</span><span class="ftag">custom template</span><span class="ftag">auto-update</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-c">💬</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Forum Post</div>
+<p class="fd">Bot buat forum post <b>atas nama server</b>, bukan atas nama user. Admin bisa batasi role mana saja yang boleh menggunakan <code>/forum</code> via <code>/forumconfig</code>. Support attachment gambar.</p>
+<div class="ftags"><span class="ftag">/forum</span><span class="ftag">/forumconfig add-role</span><span class="ftag">/forumconfig remove-role</span><span class="ftag">role-gated</span></div>
+</div>
+<div class="fc ao">
+<div class="fc-top"><div class="fic fi-g">✏️</div><span class="tb tb-f">Free</span></div>
+<div class="fn">Name Change Channel</div>
+<p class="fd">Set channel khusus di mana member ganti nickname hanya dengan mengirim pesan biasa — tanpa slash command. Bot langsung proses dan opsional berikan role otomatis setelah ganti nama.</p>
+<div class="ftags"><span class="ftag">/nameconfig set</span><span class="ftag">/nameconfig remove</span><span class="ftag">/nameconfig info</span><span class="ftag">auto-role</span></div>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+  <span class="fb">🎫 TicketForge</span>
+  <span class="fcopy">© 2026 TicketForge · Dibuat di Indonesia 🇮🇩</span>
+  <div class="flinks">
+    <a href="index.html">Beranda</a><a href="features.html" aria-current="page">Fitur</a><a href="commands.html">Commands</a><a href="pricing.html">Harga</a><a href="testimonials.html">Testimoni</a><a href="developers.html">Developer</a><a href="contact.html">Kontak</a>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
