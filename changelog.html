@@ -9,18 +9,24 @@
 <link rel="stylesheet" href="assets/css/changelog.css"/>
 </head>
 <body>
+<div class="ob ob1"></div><div class="ob ob2"></div><div class="ob ob3"></div>
+<nav>
+  <a href="index.html" class="nbrand"><span class="nmark">🎫</span>RP Assistence</a>
+  <ul class="nlinks" aria-label="Navigasi utama">
+    <li><a href="index.html">Beranda</a></li><li><a href="features.html">Fitur</a></li><li><a href="commands.html">Commands</a></li><li><a href="pricing.html">Harga</a></li><li><a href="testimonials.html">Testimoni</a></li><li><a href="changelog.html" aria-current="page" class="active">Update &amp; Changelog</a></li><li><a href="developers.html">Developer</a></li><li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <div class="nright"><a href="index.html" class="ninvite">🚀 Invite Bot</a><button class="nmobile-btn" onclick="toggleMenu()" aria-label="Buka menu" aria-controls="mobileMenu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu"><a href="index.html" onclick="closeMenu()">Beranda</a><a href="features.html" onclick="closeMenu()">Fitur</a><a href="commands.html" onclick="closeMenu()">Commands</a><a href="pricing.html" onclick="closeMenu()">Harga</a><a href="testimonials.html" onclick="closeMenu()">Testimoni</a><a href="changelog.html" onclick="closeMenu()" aria-current="page" class="active">Update &amp; Changelog</a><a href="developers.html" onclick="closeMenu()">Developer</a><a href="contact.html" onclick="closeMenu()">Kontak</a></div>
 <main class="w">
 <section class="page" id="changelog">
   <div class="breadcrumb ao"><a href="index.html">Beranda</a><span>›</span><span>Update &amp; Changelog</span></div>
-  <div class="changelog-hero ao">
-    <p class="ey">Update Log</p>
-    <h2>Update &amp; Changelog RP Assistence</h2>
-    <p class="ssub">Pantau pembaruan fitur, perbaikan bug, dan peningkatan sistem terbaru dari RP Assistence.</p>
-  </div>
+  <div class="changelog-hero ao"><p class="ey">Update Log</p><h2>Update &amp; Changelog RP Assistence</h2><p class="ssub">Pantau pembaruan fitur, perbaikan bug, dan peningkatan sistem terbaru dari RP Assistence.</p></div>
   <p class="admin-note ao" id="changelogNote">Update terbaru akan otomatis tampil di sini setelah admin menambahkan changelog.</p>
   <div class="changelog-list ao" id="changelogList" aria-live="polite"></div>
 </section>
 </main>
+<footer><span class="fb">🎫 RP Assistence</span><span class="fcopy">© 2026 RP Assistence · SAPIGENDUT</span><div class="flinks"><a href="index.html">Beranda</a><a href="features.html">Fitur</a><a href="commands.html">Commands</a><a href="pricing.html">Harga</a><a href="testimonials.html">Testimoni</a><a href="changelog.html" aria-current="page">Update &amp; Changelog</a><a href="developers.html">Developer</a><a href="contact.html">Kontak</a></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/js/supabase-config.js"></script>
 <script src="assets/js/main.js"></script>
