@@ -1,4 +1,4 @@
-// TicketForge Supabase configuration
+// RP Assistence Supabase configuration
 // GANTI dua value di bawah ini dengan data dari Supabase Project kamu.
 // Jangan pakai service_role key di frontend. Pakai anon public key saja.
 window.TICKETFORGE_SUPABASE = {
