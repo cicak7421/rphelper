@@ -7,6 +7,8 @@ dotenv.config();
 
 const PORT = Number(process.env.DASHBOARD_API_PORT || 8787);
 const ORIGIN = process.env.DASHBOARD_ORIGIN || '*';
+const PUBLIC_HOSTNAME = process.env.DASHBOARD_PUBLIC_HOSTNAME || '';
+const PUBLIC_URL = process.env.DASHBOARD_PUBLIC_URL || '';
 const DISCORD_API = 'https://discord.com/api/v10';
 const ADMIN = 0x8n;
 const MANAGE_GUILD = 0x20n;
@@ -115,14 +117,35 @@ async function guildDetails(req, res) {
 
 async function handler(req, res) {
   if (req.method === 'OPTIONS') return send(res, 200, { ok: true });
-  if (req.method === 'GET' && req.url === '/health') return send(res, 200, { ok: true, service: 'rp-assistence-dashboard-api' });
+  if (req.method === 'GET' && req.url === '/health') return send(res, 200, { ok: true, service: 'rp-assistence-dashboard-api', port: PORT });
   if (req.method === 'POST' && req.url === '/api/dashboard/guild-details') return guildDetails(req, res);
   return send(res, 404, { ok: false, error: 'Not found.' });
 }
 
-http.createServer((req, res) => {
+async function selfTest() {
+  const localUrl = `http://127.0.0.1:${PORT}/health`;
+  console.log('────────────────────────────────────────');
+  console.log('RP Assistence Dashboard API running');
+  console.log('Port:', PORT);
+  console.log('Local health:', localUrl);
+  if (PUBLIC_URL) console.log('Public health:', PUBLIC_URL.replace(/\/$/, '') + '/health');
+  if (PUBLIC_HOSTNAME) console.log('Public health:', `http://${PUBLIC_HOSTNAME}:${PORT}/health`);
+
+  try {
+    const res = await fetch(localUrl);
+    const text = await res.text();
+    console.log(res.ok ? '✅ Local self-test OK:' : '❌ Local self-test failed:', text);
+  } catch (error) {
+    console.log('❌ Local self-test error:', error.message);
+  }
+  console.log('────────────────────────────────────────');
+}
+
+const server = http.createServer((req, res) => {
   handler(req, res).catch(error => {
     console.error(error);
     send(res, 500, { ok: false, error: 'Internal dashboard API error.' });
   });
-}).listen(PORT, () => console.log('RP Assistence Dashboard API running on port ' + PORT));
+});
+
+server.listen(PORT, '0.0.0.0', selfTest);
