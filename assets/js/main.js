@@ -1,6 +1,43 @@
 // RP Assistence static multi-page interactions
 (function () {
   const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isChangelog = /changelog\.html$/i.test(window.location.pathname);
+
+  function createChangelogAnchor() {
+    const a = document.createElement('a');
+    a.href = 'changelog.html';
+    a.textContent = 'Update & Changelog';
+    if (isChangelog) {
+      a.classList.add('active');
+      a.setAttribute('aria-current', 'page');
+    }
+    return a;
+  }
+
+  function injectChangelogLinks() {
+    document.querySelectorAll('.nlinks').forEach(nav => {
+      if (nav.querySelector('a[href="changelog.html"]')) return;
+      const li = document.createElement('li');
+      li.appendChild(createChangelogAnchor());
+      const before = Array.from(nav.querySelectorAll('a')).find(a => /developers\.html|contact\.html/i.test(a.getAttribute('href') || ''));
+      nav.insertBefore(li, before ? before.closest('li') : null);
+    });
+
+    document.querySelectorAll('.mobile-menu').forEach(menu => {
+      if (menu.querySelector('a[href="changelog.html"]')) return;
+      const a = createChangelogAnchor();
+      a.setAttribute('onclick', 'closeMenu()');
+      const before = Array.from(menu.querySelectorAll('a')).find(item => /developers\.html|contact\.html/i.test(item.getAttribute('href') || ''));
+      menu.insertBefore(a, before || null);
+    });
+
+    document.querySelectorAll('.flinks').forEach(footer => {
+      if (footer.querySelector('a[href="changelog.html"]')) return;
+      const a = createChangelogAnchor();
+      const before = Array.from(footer.querySelectorAll('a')).find(item => /developers\.html|contact\.html/i.test(item.getAttribute('href') || ''));
+      footer.insertBefore(a, before || null);
+    });
+  }
 
   function revealAll() {
     document.querySelectorAll('.ao').forEach((el, i) => {
@@ -8,6 +45,8 @@
       el.classList.add('vis');
     });
   }
+
+  injectChangelogLinks();
 
   if ('IntersectionObserver' in window && !prefersReducedMotion) {
     const io = new IntersectionObserver(entries => {
@@ -78,9 +117,7 @@
 
   window.filterCmds = function filterCmds(tier, btn) {
     activeCommandTier = tier;
-    document.querySelectorAll('.cmd-tab').forEach(tab => {
-      tab.classList.remove('active-all', 'active-f', 'active-p', 'active-e');
-    });
+    document.querySelectorAll('.cmd-tab').forEach(tab => tab.classList.remove('active-all', 'active-f', 'active-p', 'active-e'));
     const map = { all: 'active-all', free: 'active-f', pro: 'active-p', ent: 'active-e' };
     if (btn) btn.classList.add(map[tier] || 'active-all');
     applyCommandFilters();
@@ -120,13 +157,7 @@
   }
 
   function initials(name) {
-    return String(name || 'C')
-      .trim()
-      .split(/\s+/)
-      .slice(0, 2)
-      .map(word => word[0] || '')
-      .join('')
-      .toUpperCase() || 'C';
+    return String(name || 'C').trim().split(/\s+/).slice(0, 2).map(word => word[0] || '').join('').toUpperCase() || 'C';
   }
 
   function formatDate(value) {
@@ -143,6 +174,17 @@
       comment: item.comment || '',
       date: item.created_at || item.date || ''
     };
+  }
+
+  function setEmptyState(title, subtitle) {
+    const empty = document.createElement('div');
+    const strong = document.createElement('strong');
+    const span = document.createElement('span');
+    empty.className = 'testimonial-empty';
+    strong.textContent = title;
+    span.textContent = subtitle;
+    empty.append(strong, span);
+    list.replaceChildren(empty);
   }
 
   function renderSummary(reviews) {
@@ -167,14 +209,12 @@
         const track = document.createElement('div');
         const fill = document.createElement('span');
         const value = document.createElement('span');
-
         row.className = 'rating-bar-row';
         track.className = 'rating-bar-track';
         fill.className = 'rating-bar-fill';
         fill.style.width = percent + '%';
         label.textContent = star + '★';
         value.textContent = count;
-
         track.appendChild(fill);
         row.append(label, track, value);
         barsEl.appendChild(row);
@@ -182,29 +222,14 @@
     }
   }
 
-  function setEmptyState(title, subtitle) {
-    const empty = document.createElement('div');
-    const strong = document.createElement('strong');
-    const span = document.createElement('span');
-
-    empty.className = 'testimonial-empty';
-    strong.textContent = title;
-    span.textContent = subtitle;
-    empty.append(strong, span);
-    list.replaceChildren(empty);
-  }
-
   function renderReviews() {
     renderSummary(reviewsCache);
-    const filtered = activeReviewFilter === 'all'
-      ? reviewsCache
-      : reviewsCache.filter(item => String(item.rating) === activeReviewFilter);
+    const filtered = activeReviewFilter === 'all' ? reviewsCache : reviewsCache.filter(item => String(item.rating) === activeReviewFilter);
 
     if (!reviewsCache.length) {
       setEmptyState('Belum ada testimoni.', 'Testimoni akan tampil di sini setelah customer mengirim ulasan asli.');
       return;
     }
-
     if (!filtered.length) {
       setEmptyState('Belum ada testimoni untuk filter ini.', 'Coba pilih filter lain.');
       return;
@@ -249,33 +274,20 @@
   }
 
   function getSupabaseClient() {
-    if (!window.supabase || !window.supabase.createClient) {
-      throw new Error('Library Supabase belum termuat.');
-    }
-    if (!config.url || !config.anonKey) {
-      throw new Error('Konfigurasi Supabase belum diisi.');
-    }
+    if (!window.supabase || !window.supabase.createClient) throw new Error('Library Supabase belum termuat.');
+    if (!config.url || !config.anonKey) throw new Error('Konfigurasi Supabase belum diisi.');
     return window.supabase.createClient(config.url, config.anonKey);
   }
 
   async function loadReviews() {
     setEmptyState('Memuat testimoni...', 'Mengambil data asli dari Supabase.');
-
     try {
       const client = getSupabaseClient();
-      const query = client
-        .from(tableName)
-        .select('id, customer_name, rating, comment, created_at, is_approved')
-        .order('created_at', { ascending: false });
-
+      const query = client.from(tableName).select('id, customer_name, rating, comment, created_at, is_approved').order('created_at', { ascending: false });
       const { data, error } = await query.eq('is_approved', true);
 
       if (error && /is_approved|column|schema/i.test(error.message || '')) {
-        const fallback = await client
-          .from(tableName)
-          .select('id, customer_name, rating, comment, created_at')
-          .order('created_at', { ascending: false });
-
+        const fallback = await client.from(tableName).select('id, customer_name, rating, comment, created_at').order('created_at', { ascending: false });
         if (fallback.error) throw fallback.error;
         reviewsCache = Array.isArray(fallback.data) ? fallback.data.map(normalizeReview) : [];
       } else if (error) {
@@ -283,7 +295,6 @@
       } else {
         reviewsCache = Array.isArray(data) ? data.map(normalizeReview) : [];
       }
-
       renderReviews();
     } catch (error) {
       console.error(error);
@@ -302,11 +313,9 @@
 
   form.addEventListener('submit', async event => {
     event.preventDefault();
-
     const nameInput = document.getElementById('customerName');
     const ratingInput = document.getElementById('customerRating');
     const commentInput = document.getElementById('customerComment');
-
     const customer_name = nameInput ? nameInput.value.trim() : '';
     const rating = ratingInput ? Number(ratingInput.value || 5) : 5;
     const reviewComment = commentInput ? commentInput.value.trim() : '';
@@ -315,7 +324,6 @@
       setMessage('Nama dan komentar wajib diisi.', 'error');
       return;
     }
-
     if (reviewComment.length > 280) {
       setMessage('Komentar maksimal 280 karakter.', 'error');
       return;
@@ -329,21 +337,15 @@
 
     try {
       const client = getSupabaseClient();
-      const { error } = await client
-        .from(tableName)
-        .insert([{ customer_name, rating, comment: reviewComment }]);
-
+      const { error } = await client.from(tableName).insert([{ customer_name, rating, comment: reviewComment }]);
       if (error) throw error;
-
       form.reset();
       if (counter) counter.textContent = '0';
       setMessage('Terima kasih! Testimoni berhasil dikirim.', 'success');
-
       activeReviewFilter = 'all';
       document.querySelectorAll('.review-filter').forEach(button => button.classList.remove('active-all', 'active-rating'));
       const allButton = document.querySelector('.review-filter[data-review-filter="all"]');
       if (allButton) allButton.classList.add('active-all');
-
       await loadReviews();
     } catch (error) {
       console.error(error);
