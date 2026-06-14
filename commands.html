@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Commands — TicketForge</title>
+<meta name="description" content="Daftar slash command TicketForge berdasarkan tier."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+<div class="ob ob1"></div><div class="ob ob2"></div><div class="ob ob3"></div>
+
+<nav>
+  <a href="index.html" class="nbrand"><span class="nmark">🎫</span>TicketForge</a>
+  <ul class="nlinks" aria-label="Navigasi utama">
+    <li><a href="index.html">Beranda</a></li><li><a href="features.html">Fitur</a></li><li><a href="commands.html" aria-current="page" class="active">Commands</a></li><li><a href="pricing.html">Harga</a></li><li><a href="testimonials.html">Testimoni</a></li><li><a href="developers.html">Developer</a></li><li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <div class="nright">
+    <a href="https://discord.com/oauth2/authorize" class="ninvite" target="_blank" rel="noopener">🚀 Invite Bot</a>
+    <button class="nmobile-btn" onclick="toggleMenu()" aria-label="Buka menu" aria-controls="mobileMenu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMenu()">Beranda</a><a href="features.html" onclick="closeMenu()">Fitur</a><a href="commands.html" onclick="closeMenu()" aria-current="page" class="active">Commands</a><a href="pricing.html" onclick="closeMenu()">Harga</a><a href="testimonials.html" onclick="closeMenu()">Testimoni</a><a href="developers.html" onclick="closeMenu()">Developer</a><a href="contact.html" onclick="closeMenu()">Kontak</a>
+</div>
+
+<main class="w">
+<section aria-label="Commands" class="page" id="commands"><div class="breadcrumb ao"><a href="index.html">Beranda</a><span>›</span><span>Commands</span></div>
+<div class="shead ao">
+<p class="ey">Slash Commands</p>
+<h2>Semua Command yang Tersedia</h2>
+<p class="ssub">Command lengkap berbasis Discord native interaction — tidak perlu prefix.</p>
+</div>
+<div class="cmd-tools ao">
+<label aria-label="Cari command" class="cmd-search">
+<span>⌕</span>
+<input id="cmdSearch" oninput="searchCmds(this.value)" placeholder="Cari command, contoh: payroll, ticket, bank..." type="search"/>
+</label>
+</div>
+<div class="cmd-tabs ao">
+<button class="cmd-tab active-all" onclick="filterCmds('all', this)">Semua</button>
+<button class="cmd-tab" onclick="filterCmds('free', this)">🟢 Free</button>
+<button class="cmd-tab" onclick="filterCmds('pro', this)">🔵 Professional</button>
+<button class="cmd-tab" onclick="filterCmds('ent', this)">🟣 Enterprise</button>
+</div>
+<div class="cgrid ao">
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">ticket</span><span class="cd">Kelola &amp; kirim panel ticket</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">ticketwizard</span><span class="cd">Guided setup sistem ticket</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">accept</span><span class="cd">Setujui ticket di channel ini</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">received</span><span class="cd">Tandai ticket diterima</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">denied</span><span class="cd">Tolak ticket di channel ini</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">pending</span><span class="cd">Tandai ticket sebagai pending</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">staffconfig</span><span class="cd">Kelola profil &amp; rekening staff</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">statusconfig</span><span class="cd">Atur embed &amp; channel per status</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">hrwizard</span><span class="cd">Setup sistem HR guided</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">hraction</span><span class="cd">hire · fire · promote · demote</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">hremployeelist</span><span class="cd">Lihat daftar karyawan aktif</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">welcomewizard</span><span class="cd">Setup welcome &amp; goodbye</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">aichat</span><span class="cd">set · remove · info channel AI</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">buatssrp</span><span class="cd">Generate gambar SSRP dari AI</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">set_buatssrp_channel</span><span class="cd">Izin channel untuk /buatssrp</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">set_buatssrp_role</span><span class="cd">Override quota SSRP per role</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">startcount</span><span class="cd">Mulai sesi penghitungan iklan</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">endcount</span><span class="cd">Akhiri sesi &amp; kirim laporan</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">adconfig</span><span class="cd">Kelola role akses ad count</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">giveaway</span><span class="cd">start · end · reroll</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">embed</span><span class="cd">Kirim pesan embed ke channel</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">announce</span><span class="cd">Kirim pengumuman teks</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">serverstats</span><span class="cd">setup · remove stat channel</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">forum</span><span class="cd">Buat forum post via bot</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">forumconfig</span><span class="cd">Atur role akses /forum</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">nameconfig</span><span class="cd">Setup channel ganti nickname</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">ping</span><span class="cd">Cek latency bot</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="free"><span class="csl">/</span><span class="cn">help</span><span class="cd">Panduan lengkap bot</span><span class="cbg cbf">Free</span></div>
+<div class="ci" data-tier="pro"><span class="csl">/</span><span class="cn">adswizard</span><span class="cd">Setup rekap iklan mingguan</span><span class="cbg cbp">Pro</span></div>
+<div class="ci" data-tier="pro"><span class="csl">/</span><span class="cn">adsrekap</span><span class="cd">Generate rekap iklan manual</span><span class="cbg cbp">Pro</span></div>
+<div class="ci" data-tier="ent"><span class="csl">/</span><span class="cn">payrollwizard</span><span class="cd">Setup &amp; jalankan payroll</span><span class="cbg cbe">Enterprise</span></div>
+<div class="ci" data-tier="ent"><span class="csl">/</span><span class="cn">payroll</span><span class="cd">run · status · history</span><span class="cbg cbe">Enterprise</span></div>
+<div class="ci" data-tier="ent"><span class="csl">/</span><span class="cn">taxwizard</span><span class="cd">Setup sistem pajak otomatis</span><span class="cbg cbe">Enterprise</span></div>
+<div class="ci" data-tier="ent"><span class="csl">/</span><span class="cn">tax</span><span class="cd">check · pay · history · adjust</span><span class="cbg cbe">Enterprise</span></div>
+<div class="ci" data-tier="ent"><span class="csl">/</span><span class="cn">bankwizard</span><span class="cd">Setup bank virtual</span><span class="cbg cbe">Enterprise</span></div>
+<div class="ci" data-tier="ent"><span class="csl">/</span><span class="cn">bank</span><span class="cd">balance · withdraw · transfer · history</span><span class="cbg cbe">Enterprise</span></div>
+</div>
+</section>
+</main>
+
+<footer>
+  <span class="fb">🎫 RP Assistence</span>
+  <span class="fcopy">© 2026 TicketForge · Dibuat di Indonesia 🇮🇩</span>
+  <div class="flinks">
+    <a href="index.html">Beranda</a><a href="features.html">Fitur</a><a href="commands.html" aria-current="page">Commands</a><a href="pricing.html">Harga</a><a href="testimonials.html">Testimoni</a><a href="developers.html">Developer</a><a href="contact.html">Kontak</a>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
