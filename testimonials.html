@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Testimoni — TicketForge</title>
+<meta name="description" content="Lihat dan isi testimoni customer TicketForge berdasarkan nama, rating bintang, dan komentar."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+<div class="ob ob1"></div><div class="ob ob2"></div><div class="ob ob3"></div>
+
+<nav>
+  <a href="index.html" class="nbrand"><span class="nmark">🎫</span>TicketForge</a>
+  <ul class="nlinks" aria-label="Navigasi utama">
+    <li><a href="index.html">Beranda</a></li><li><a href="features.html">Fitur</a></li><li><a href="commands.html">Commands</a></li><li><a href="pricing.html">Harga</a></li><li><a href="testimonials.html" aria-current="page" class="active">Testimoni</a></li><li><a href="developers.html">Developer</a></li><li><a href="contact.html">Kontak</a></li>
+  </ul>
+  <div class="nright">
+    <a href="https://discord.com/oauth2/authorize" class="ninvite" target="_blank" rel="noopener">🚀 Invite Bot</a>
+    <button class="nmobile-btn" onclick="toggleMenu()" aria-label="Buka menu" aria-controls="mobileMenu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMenu()">Beranda</a><a href="features.html" onclick="closeMenu()">Fitur</a><a href="commands.html" onclick="closeMenu()">Commands</a><a href="pricing.html" onclick="closeMenu()">Harga</a><a href="testimonials.html" onclick="closeMenu()" aria-current="page" class="active">Testimoni</a><a href="developers.html" onclick="closeMenu()">Developer</a><a href="contact.html" onclick="closeMenu()">Kontak</a>
+</div>
+
+<main class="w">
+<section aria-label="Testimoni" class="page" id="testimonials">
+  <div class="breadcrumb ao"><a href="index.html">Beranda</a><span>›</span><span>Testimoni</span></div>
+  <div class="shead ao">
+    <p class="ey">Customer Reviews</p>
+    <h2>Apa Kata Pengguna TicketForge?</h2>
+    <p class="ssub">Customer bisa mengisi nama, rating bintang, dan komentar. Data tersimpan ke Supabase dan tampil untuk semua pengunjung.</p>
+    <div class="page-head-actions">
+      <a href="#testimonialForm" class="btng">⭐ Isi Testimoni</a>
+      <a href="pricing.html" class="btngh">Lihat Paket →</a>
+    </div>
+  </div>
+
+  <div class="testimonial-layout ao">
+    <aside class="testimonial-summary" aria-label="Ringkasan rating">
+      <div class="rating-badge">⭐</div>
+      <div class="rating-number" id="avgRating">0.0</div>
+      <div class="rating-stars" id="avgStars" aria-label="Rata-rata rating">☆☆☆☆☆</div>
+      <p><span id="reviewCount">0</span> testimoni customer</p>
+      <div class="rating-bars" id="ratingBars" aria-label="Distribusi rating"></div>
+      <p class="storage-note">Terhubung ke Supabase. Jika database masih kosong, halaman tidak akan menampilkan testimoni palsu atau dummy.</p>
+    </aside>
+
+    <div class="testimonial-panel">
+      <form class="testimonial-form" id="testimonialForm" novalidate>
+        <div class="form-head">
+          <span class="form-icon">✍️</span>
+          <div>
+            <h3>Tulis Testimoni</h3>
+            <p>Bagikan pengalaman kamu menggunakan TicketForge.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>Nama Customer</span>
+            <input type="text" id="customerName" name="customerName" maxlength="40" placeholder="Contoh: Arkana Roleplay" required/>
+          </label>
+
+          <label class="field">
+            <span>Rating Bintang</span>
+            <select id="customerRating" name="customerRating" required>
+              <option value="5">★★★★★ — Sangat puas</option>
+              <option value="4">★★★★☆ — Puas</option>
+              <option value="3">★★★☆☆ — Cukup</option>
+              <option value="2">★★☆☆☆ — Kurang</option>
+              <option value="1">★☆☆☆☆ — Tidak puas</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Komentar</span>
+          <textarea id="customerComment" name="customerComment" maxlength="260" rows="5" placeholder="Tulis pengalaman menggunakan bot, support, fitur ticket, AI chat, payroll, dan lainnya..." required></textarea>
+          <small><span id="commentCounter">0</span>/260 karakter</small>
+        </label>
+
+        <div class="form-actions">
+          <button class="btng" type="submit">Kirim Testimoni</button>
+        </div>
+        <p class="form-message" id="testimonialMessage" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="testimonial-toolbar ao">
+    <h3>Daftar Testimoni</h3>
+    <div class="testimonial-filter" role="group" aria-label="Filter rating testimoni">
+      <button class="review-filter active-all" type="button" data-review-filter="all">Semua</button>
+      <button class="review-filter" type="button" data-review-filter="5">5★</button>
+      <button class="review-filter" type="button" data-review-filter="4">4★</button>
+      <button class="review-filter" type="button" data-review-filter="3">3★</button>
+    </div>
+  </div>
+
+  <div class="testimonial-grid ao" id="testimonialList" aria-live="polite"></div>
+</section>
+</main>
+
+<footer>
+  <span class="fb">🎫 TicketForge</span>
+  <span class="fcopy">© 2026 TicketForge · Dibuat di Indonesia 🇮🇩</span>
+  <div class="flinks">
+    <a href="index.html">Beranda</a><a href="features.html">Fitur</a><a href="commands.html">Commands</a><a href="pricing.html">Harga</a><a href="testimonials.html" aria-current="page">Testimoni</a><a href="developers.html">Developer</a><a href="contact.html">Kontak</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
