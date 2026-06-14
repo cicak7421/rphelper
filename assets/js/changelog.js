@@ -1,0 +1,268 @@
+// RP Assistence Update & Changelog
+(function () {
+  const APP_NAME = 'RP Assistance';
+  const BASE_VERSION = 'v2.4.2.1';
+  const TABLE = 'changelogs';
+  const ADMIN_SESSION_KEY = 'rp_assistence_admin_session';
+  const ADMIN_LOGIN_HASH = '33e16205130dcfddfbbf48d4b75ec557eb3ba1e05ebc5f38ed296eb9e6118938';
+
+  const config = window.RP_ASSISTENCE_SUPABASE || {};
+
+  function versionTitle(version) {
+    return '[' + APP_NAME + '] Update ' + version;
+  }
+
+  function parseVersion(titleOrVersion) {
+    const text = String(titleOrVersion || '');
+    const match = text.match(/v(\d+)\.(\d+)\.(\d+)\.(\d+)/i);
+    if (!match) return [2, 4, 2, 0];
+    return match.slice(1).map(Number);
+  }
+
+  function formatVersion(parts) {
+    return 'v' + parts.join('.');
+  }
+
+  function nextVersionFrom(titleOrVersion) {
+    const parts = parseVersion(titleOrVersion);
+    if (parts[3] >= 9) {
+      parts[2] += 1;
+      parts[3] = 0;
+    } else {
+      parts[3] += 1;
+    }
+    return formatVersion(parts);
+  }
+
+  function getClient() {
+    if (!window.supabase || !window.supabase.createClient) {
+      throw new Error('Library Supabase belum termuat.');
+    }
+    if (!config.url || !config.anonKey) {
+      throw new Error('Konfigurasi Supabase belum diisi.');
+    }
+    return window.supabase.createClient(config.url, config.anonKey);
+  }
+
+  function formatDate(value) {
+    const date = value ? new Date(value) : new Date();
+    if (Number.isNaN(date.getTime())) return '';
+    return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+
+  function splitDetails(value) {
+    if (Array.isArray(value)) return value.map(String).filter(Boolean);
+    return String(value || '')
+      .split('\n')
+      .map(item => item.replace(/^[-•\s]+/, '').trim())
+      .filter(Boolean);
+  }
+
+  function fallbackLogs() {
+    return [{
+      version_title: versionTitle(BASE_VERSION),
+      summary: 'Changelog awal RP Assistence. Update berikutnya akan tampil otomatis setelah admin menambahkan log baru.',
+      details: ['Halaman Update & Changelog telah ditambahkan.', 'Sistem admin changelog disiapkan untuk update berikutnya.'],
+      created_at: new Date().toISOString(),
+      created_by: 'SAPIGENDUT'
+    }];
+  }
+
+  async function fetchLogs(limit) {
+    const client = getClient();
+    const { data, error } = await client
+      .from(TABLE)
+      .select('id, version_title, summary, details, created_by, created_at')
+      .order('created_at', { ascending: false })
+      .limit(limit || 50);
+
+    if (error) throw error;
+    return Array.isArray(data) && data.length ? data : fallbackLogs();
+  }
+
+  function renderLogs(logs) {
+    const list = document.getElementById('changelogList');
+    if (!list) return;
+
+    list.replaceChildren();
+    logs.forEach(log => {
+      const card = document.createElement('article');
+      const head = document.createElement('div');
+      const title = document.createElement('h3');
+      const date = document.createElement('span');
+      const summary = document.createElement('p');
+      const points = document.createElement('ul');
+
+      card.className = 'changelog-card ao vis';
+      head.className = 'changelog-card-head';
+      date.className = 'changelog-date';
+      summary.className = 'changelog-summary';
+      points.className = 'changelog-points';
+
+      title.textContent = log.version_title || versionTitle(BASE_VERSION);
+      date.textContent = formatDate(log.created_at);
+      summary.textContent = log.summary || 'Update sistem RP Assistence.';
+
+      splitDetails(log.details).forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        points.appendChild(li);
+      });
+
+      if (!points.children.length) {
+        const li = document.createElement('li');
+        li.textContent = 'Detail update belum ditambahkan.';
+        points.appendChild(li);
+      }
+
+      head.append(title, date);
+      card.append(head, summary, points);
+      list.appendChild(card);
+    });
+  }
+
+  async function loadPublicChangelog() {
+    const list = document.getElementById('changelogList');
+    if (!list) return;
+
+    try {
+      renderLogs(await fetchLogs(50));
+    } catch (error) {
+      console.error(error);
+      renderLogs(fallbackLogs());
+      const note = document.getElementById('changelogNote');
+      if (note) note.textContent = 'Changelog default tampil karena tabel Supabase belum tersedia atau belum bisa diakses.';
+    }
+  }
+
+  async function sha256(text) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash)).map(byte => byte.toString(16).padStart(2, '0')).join('');
+  }
+
+  function setAdminMessage(text, type) {
+    const el = document.getElementById('adminMessage');
+    if (!el) return;
+    el.textContent = text || '';
+    el.classList.remove('error', 'success');
+    if (type) el.classList.add(type);
+  }
+
+  function showAdminPanel(show) {
+    const login = document.getElementById('adminLoginPanel');
+    const panel = document.getElementById('adminFormPanel');
+    if (login) login.classList.toggle('hidden-admin', show);
+    if (panel) panel.classList.toggle('hidden-admin', !show);
+  }
+
+  async function getNextTitle() {
+    try {
+      const logs = await fetchLogs(1);
+      const first = logs[0];
+      const latest = first && first.version_title ? first.version_title : versionTitle('v2.4.2.0');
+      const next = latest === versionTitle(BASE_VERSION) && first && first.created_by === 'SAPIGENDUT'
+        ? BASE_VERSION
+        : nextVersionFrom(latest);
+      return versionTitle(next);
+    } catch (error) {
+      console.error(error);
+      return versionTitle(BASE_VERSION);
+    }
+  }
+
+  async function refreshVersionField() {
+    const input = document.getElementById('updateTitle');
+    const preview = document.getElementById('versionPreview');
+    const title = await getNextTitle();
+    if (input) input.value = title;
+    if (preview) preview.textContent = title;
+  }
+
+  async function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('adminUsername');
+    const password = document.getElementById('adminPassword');
+    const value = (username ? username.value.trim() : '') + ':' + (password ? password.value : '');
+    const hash = await sha256(value);
+
+    if (hash !== ADMIN_LOGIN_HASH) {
+      setAdminMessage('Username atau password salah.', 'error');
+      return;
+    }
+
+    sessionStorage.setItem(ADMIN_SESSION_KEY, 'active');
+    showAdminPanel(true);
+    setAdminMessage('Login berhasil. Silakan isi update log.', 'success');
+    await refreshVersionField();
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const title = document.getElementById('updateTitle');
+    const summary = document.getElementById('updateSummary');
+    const details = document.getElementById('updateDetails');
+    const author = document.getElementById('updateAuthor');
+    const submit = document.getElementById('submitUpdate');
+
+    const payload = {
+      version_title: title ? title.value.trim() : versionTitle(BASE_VERSION),
+      summary: summary ? summary.value.trim() : '',
+      details: splitDetails(details ? details.value : ''),
+      created_by: author && author.value.trim() ? author.value.trim() : 'Staff RP Assistence'
+    };
+
+    if (!payload.summary || !payload.details.length) {
+      setAdminMessage('Ringkasan dan detail update wajib diisi.', 'error');
+      return;
+    }
+
+    try {
+      if (submit) {
+        submit.disabled = true;
+        submit.textContent = 'Menyimpan...';
+      }
+
+      const client = getClient();
+      const { error } = await client.from(TABLE).insert([payload]);
+      if (error) throw error;
+
+      if (summary) summary.value = '';
+      if (details) details.value = '';
+      setAdminMessage('Update log berhasil disimpan dan akan tampil di halaman customer.', 'success');
+      await refreshVersionField();
+    } catch (error) {
+      console.error(error);
+      setAdminMessage('Gagal menyimpan. Pastikan tabel Supabase changelogs sudah dibuat dan policy insert aktif.', 'error');
+    } finally {
+      if (submit) {
+        submit.disabled = false;
+        submit.textContent = 'Simpan Update Log';
+      }
+    }
+  }
+
+  function setupAdmin() {
+    const loginForm = document.getElementById('adminLoginForm');
+    const updateForm = document.getElementById('updateLogForm');
+    const logoutBtn = document.getElementById('adminLogout');
+    if (!loginForm || !updateForm) return;
+
+    showAdminPanel(sessionStorage.getItem(ADMIN_SESSION_KEY) === 'active');
+    if (sessionStorage.getItem(ADMIN_SESSION_KEY) === 'active') refreshVersionField();
+
+    loginForm.addEventListener('submit', handleLogin);
+    updateForm.addEventListener('submit', handleSubmit);
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        showAdminPanel(false);
+        setAdminMessage('Session admin sudah keluar.', 'success');
+      });
+    }
+  }
+
+  loadPublicChangelog();
+  setupAdmin();
+})();
