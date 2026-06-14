@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Update Log — RP Assistence</title>
+<link rel="icon" type="image/svg+xml" href="assets/img/logo.svg"/>
+<link rel="stylesheet" href="assets/css/style.css"/>
+<link rel="stylesheet" href="assets/css/changelog.css"/>
+</head>
+<body>
+<main class="w">
+<section class="page" id="admin">
+  <div class="breadcrumb ao"><a href="index.html">Beranda</a><span>›</span><span>Admin Update Log</span></div>
+  <div class="admin-wrap ao">
+    <div class="admin-card" id="adminLoginPanel">
+      <h2>Akses Staff</h2>
+      <p>Masuk untuk menambahkan update log RP Assistence.</p>
+      <form class="admin-form" id="adminLoginForm">
+        <label>Username<input id="adminUsername" type="text" required/></label>
+        <label>Kode Akses<input id="adminPassword" type="text" required/></label>
+        <div class="admin-actions"><button class="btng" type="submit">Masuk</button></div>
+      </form>
+      <p class="admin-message" id="adminMessage" role="status"></p>
+    </div>
+    <div class="admin-card hidden-admin" id="adminFormPanel">
+      <div class="admin-topline"><div><h2>Tambah Update Log</h2><p>Versi akan otomatis naik setelah update disimpan.</p></div><button class="btngh" type="button" id="adminLogout">Logout</button></div>
+      <span class="version-preview" id="versionPreview">Memuat versi...</span>
+      <form class="admin-form" id="updateLogForm">
+        <label>Judul Update<input id="updateTitle" type="text" readonly required/></label>
+        <label>Ringkasan Update<textarea id="updateSummary" rows="3" placeholder="Contoh: Peningkatan sistem ticket dan perbaikan bug kecil." required></textarea></label>
+        <label>Detail Update<textarea id="updateDetails" rows="7" placeholder="Tulis satu poin per baris." required></textarea></label>
+        <label>Ditulis oleh<input id="updateAuthor" type="text" value="SAPIGENDUT"/></label>
+        <div class="admin-actions"><button class="btng" id="submitUpdate" type="submit">Simpan Update Log</button><a class="btngh" href="changelog.html">Lihat Changelog</a></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-config.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/changelog.js"></script>
+</body>
+</html>
