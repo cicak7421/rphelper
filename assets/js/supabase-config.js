@@ -6,6 +6,5 @@ window.RP_ASSISTENCE_SUPABASE = {
   table: "testimonials"
 };
 
-// Isi dengan URL hosting bot yang menjalankan bot-api/dashboard-api.js
-// Contoh: https://bot-api.rpassistence.my.id
-window.RP_ASSISTENCE_DASHBOARD_API = "";
+// URL hosting bot yang menjalankan bot-api/dashboard-api.js
+window.RP_ASSISTENCE_DASHBOARD_API = "http://apps1.vynzzhost.com:15509";
