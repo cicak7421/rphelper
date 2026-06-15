@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Dashboard Server — RP Assistence</title>
 <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg"/>
-<link rel="stylesheet" href="assets/css/style.css"/>
-<link rel="stylesheet" href="assets/css/dashboard.css"/>
+<link rel="stylesheet" href="assets/css/style.css?v=8"/>
+<link rel="stylesheet" href="assets/css/dashboard.css?v=8"/>
 </head>
 <body>
 <div class="ob ob1"></div><div class="ob ob2"></div><div class="ob ob3"></div>
@@ -14,7 +14,7 @@
 <main class="w"><section class="page" id="dashboard"><div class="dash-shell">
 <div class="dash-hero ao"><p class="ey">Server Dashboard</p><h2>Setting Bot dari Website</h2><p class="ssub">Login Discord, pilih server, lalu atur modul RP Assistence lewat UI yang lebih mudah.</p></div>
 <div class="dash-card ao" id="loginPanel"><h2>Login Discord</h2><p class="dash-muted">Masuk untuk melihat server yang kamu owner/admin.</p><div class="dash-actions"><button class="btng" id="loginDiscord" type="button">Login dengan Discord</button></div></div>
-<div class="dash-card ao dash-hidden" id="dashboardPanel"><div class="dash-row"><div class="dash-user"><div class="dash-avatar" id="dashAvatar">RP</div><div><strong id="dashName">Discord User</strong><p class="dash-muted" id="dashSub">Login aktif</p></div></div><div class="dash-actions"><button class="btngh" id="refreshGuilds" type="button">Refresh Server</button><button class="btngh" id="logoutDashboard" type="button">Logout</button></div></div><div class="dash-divider"></div><p class="dash-warning">Server harus terverifikasi lewat API hosting bot sebelum setting bisa disimpan. Pastikan bot sudah ada di server.</p><div class="dash-grid" id="guildList"></div></div>
+<div class="dash-card ao dash-hidden" id="dashboardPanel"><div class="dash-row"><div class="dash-user"><div class="dash-avatar" id="dashAvatar">RP</div><div><strong id="dashName">Discord User</strong><p class="dash-muted" id="dashSub">Login aktif</p></div></div><div class="dash-actions"><button class="btngh" id="refreshGuilds" type="button">Refresh Server</button><button class="btngh" id="logoutDashboard" type="button">Logout</button></div></div><div class="dash-divider"></div><p class="dash-warning">Server harus terverifikasi lewat API hosting bot sebelum setting bisa disimpan. Pastikan bot sudah ada di server.</p><p class="dash-message" id="dashboardTopMessage" role="status"></p><div class="dash-grid" id="guildList"></div></div>
 <div class="dash-card ao dash-hidden" id="settingsPanel"><div class="dash-row"><div><span class="dash-pill" id="selectedGuildName">Server terpilih</span><h2>Panel Setting</h2><p class="dash-muted">Pilih modul, isi form, lalu simpan. Bot akan membaca konfigurasi dari Supabase.</p></div></div><div class="dash-tabs"><button class="dash-tab active" data-target="panelAi" type="button">AI Chat</button><button class="dash-tab" data-target="panelWelcome" type="button">Welcome</button><button class="dash-tab" data-target="panelTicket" type="button">Ticket</button></div><div class="dash-divider"></div>
 <div class="module-panel active" id="panelAi"><form class="dash-form" id="aiForm"><label>Channel AI Chat<select id="aiChannel" required></select></label><div class="dash-actions"><button class="btng" type="submit">Simpan AI Chat</button></div></form></div>
 <div class="module-panel" id="panelWelcome"><form class="dash-form" id="welcomeForm"><div class="dash-two"><label>Channel Welcome<select id="welcomeChannel" required></select></label><label>Judul<input id="welcomeTitle" value="Selamat Datang!"/></label></div><label>Pesan<textarea id="welcomeMessage" rows="4">Halo {user}, selamat datang di {server}!</textarea></label><label>URL Background Opsional<input id="welcomeBg" placeholder="https://..."/></label><div class="dash-actions"><button class="btng" type="submit">Simpan Welcome</button></div></form></div>
@@ -22,5 +22,5 @@
 <p class="dash-message" id="dashboardMessage" role="status"></p></div>
 </div></section></main>
 <footer><span class="fb">🎫 RP Assistence</span><span class="fcopy">© 2026 RP Assistence · SAPIGENDUT</span><div class="flinks"><a href="index.html">Beranda</a><a href="features.html">Fitur</a><a href="commands.html">Commands</a><a href="pricing.html">Harga</a><a href="dashboard.html" aria-current="page">Dashboard</a><a href="changelog.html">Update &amp; Changelog</a><a href="contact.html">Kontak</a></div></footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/js/supabase-config.js"></script><script src="assets/js/main.js"></script><script src="assets/js/dashboard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="assets/js/supabase-config.js?v=8"></script><script src="assets/js/main.js?v=8"></script><script src="assets/js/dashboard.js?v=8"></script>
 </body></html>
