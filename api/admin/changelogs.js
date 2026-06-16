@@ -23,11 +23,24 @@ function isAdmin(req) {
   return getAdminAuth(req) === ADMIN_LOGIN_HASH;
 }
 
+function getSupabaseKey() {
+  return process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+}
+
 function client() {
   const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_KEY;
-  if (!url || !key) throw new Error('Supabase env belum lengkap.');
+  const key = getSupabaseKey();
+  if (!url) throw new Error('SUPABASE_URL belum diisi di Vercel.');
+  if (!key) throw new Error('SUPABASE_SERVICE_KEY atau SUPABASE_ANON_KEY belum diisi di Vercel.');
   return createClient(url, key);
+}
+
+function friendlyError(error) {
+  const msg = String(error?.message || error || 'Unknown error');
+  if (msg.toLowerCase().includes('invalid api key')) {
+    return 'Invalid Supabase API key di Vercel. Update env SUPABASE_SERVICE_KEY dengan service_role key yang benar, lalu redeploy Vercel.';
+  }
+  return msg;
 }
 
 export default async function handler(req, res) {
@@ -72,6 +85,6 @@ export default async function handler(req, res) {
     return fail(res, 405, 'Method not allowed.');
   } catch (error) {
     console.error(error);
-    return fail(res, 500, error.message || 'Internal admin API error.');
+    return fail(res, 500, friendlyError(error));
   }
 }
