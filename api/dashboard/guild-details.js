@@ -7,6 +7,7 @@ const MANAGE_GUILD = 0x20n;
 function setCors(req, res) {
   const origin = process.env.DASHBOARD_ORIGIN || '*';
   res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
 }
@@ -14,6 +15,17 @@ function setCors(req, res) {
 async function discordFetch(path, token, bearer = true) {
   const response = await fetch(DISCORD_API + path, {
     headers: { Authorization: (bearer ? 'Bearer ' : 'Bot ') + token }
+  });
+  const data = await response.json().catch(() => null);
+  return { ok: response.ok, status: response.status, data };
+}
+
+async function getSupabaseUser(supabaseUrl, serviceKey, accessToken) {
+  const response = await fetch(supabaseUrl.replace(/\/$/, '') + '/auth/v1/user', {
+    headers: {
+      apikey: serviceKey,
+      Authorization: 'Bearer ' + accessToken
+    }
   });
   const data = await response.json().catch(() => null);
   return { ok: response.ok, status: response.status, data };
@@ -64,14 +76,16 @@ export default async function handler(req, res) {
     if (!body.providerToken) return fail(res, 400, 'Missing Discord provider token.');
     if (!body.guildId) return fail(res, 400, 'Missing guildId.');
 
-    const supabase = createClient(supabaseUrl, serviceKey);
-    const { data: userData, error: userError } = await supabase.auth.getUser(accessToken);
-    if (userError || !userData?.user) return fail(res, 401, 'Invalid Supabase session.');
+    const userResult = await getSupabaseUser(supabaseUrl, serviceKey, accessToken);
+    if (!userResult.ok || !userResult.data?.id) {
+      return fail(res, 401, 'Invalid Supabase session. Silakan logout lalu login ulang Discord.');
+    }
+    const user = userResult.data;
 
     const discordUser = await discordFetch('/users/@me', body.providerToken, true);
-    if (!discordUser.ok) return fail(res, 401, 'Discord provider token invalid.');
+    if (!discordUser.ok) return fail(res, 401, 'Discord provider token invalid. Silakan login ulang Discord.');
 
-    const expectedDiscordId = discordIdFromSupabaseUser(userData.user);
+    const expectedDiscordId = discordIdFromSupabaseUser(user);
     if (expectedDiscordId && expectedDiscordId !== discordUser.data.id) {
       return fail(res, 403, 'Discord user tidak cocok dengan Supabase session.');
     }
@@ -86,8 +100,10 @@ export default async function handler(req, res) {
     const botGuild = await discordFetch('/guilds/' + body.guildId, botToken, false);
     if (!botGuild.ok) return fail(res, 403, 'Bot belum ada di server ini atau token bot tidak valid.');
 
+    const supabase = createClient(supabaseUrl, serviceKey);
+
     await supabase.from('dashboard_guild_access').upsert({
-      user_id: userData.user.id,
+      user_id: user.id,
       discord_user_id: discordUser.data.id,
       guild_id: String(body.guildId),
       guild_name: botGuild.data.name || guild.name,
