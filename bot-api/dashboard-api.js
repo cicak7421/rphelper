@@ -1,11 +1,11 @@
 // Bot-hosted validator API for RP Assistence Dashboard
-// Jalankan di hosting bot: node bot-api/dashboard-api.js
+// Render/VPS/VynzzHost ready
 import http from 'http';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const PORT = Number(process.env.DASHBOARD_API_PORT || 8787);
+const PORT = Number(process.env.PORT || process.env.DASHBOARD_API_PORT || 8787);
 const ORIGIN = process.env.DASHBOARD_ORIGIN || '*';
 const PUBLIC_HOSTNAME = process.env.DASHBOARD_PUBLIC_HOSTNAME || '';
 const PUBLIC_URL = process.env.DASHBOARD_PUBLIC_URL || '';
@@ -130,7 +130,6 @@ async function selfTest() {
   console.log('Local health:', localUrl);
   if (PUBLIC_URL) console.log('Public health:', PUBLIC_URL.replace(/\/$/, '') + '/health');
   if (PUBLIC_HOSTNAME) console.log('Public health:', `http://${PUBLIC_HOSTNAME}:${PORT}/health`);
-
   try {
     const res = await fetch(localUrl);
     const text = await res.text();
