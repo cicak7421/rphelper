@@ -7,4 +7,4 @@ window.RP_ASSISTENCE_SUPABASE = {
 };
 
 // URL hosting bot yang menjalankan bot-api/dashboard-api.js
-window.RP_ASSISTENCE_DASHBOARD_API = "http://apps1.vynzzhost.com:15509";
+window.RP_ASSISTENCE_DASHBOARD_API = "https://rphelper.vercel.app";
